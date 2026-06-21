@@ -1,0 +1,1 @@
+Place screenshot: 08-cloudwatch-root-account-alarm.png
