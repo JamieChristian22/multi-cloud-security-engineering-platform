@@ -1,1 +1,0 @@
-Place screenshot: 10-cloudwatch-security-group-change-alarm.png

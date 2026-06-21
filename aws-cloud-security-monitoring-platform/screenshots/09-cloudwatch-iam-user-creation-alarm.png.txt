@@ -1,1 +1,0 @@
-Place screenshot: 09-cloudwatch-iam-user-creation-alarm.png
