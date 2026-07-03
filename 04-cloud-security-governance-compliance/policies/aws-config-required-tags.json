@@ -1,0 +1,10 @@
+{
+  "ConfigRuleName": "required-tags",
+  "Description": "Require business, owner, environment, and cost-center tags.",
+  "InputParameters": {
+    "tag1Key": "Owner",
+    "tag2Key": "Environment",
+    "tag3Key": "CostCenter",
+    "tag4Key": "DataClassification"
+  }
+}

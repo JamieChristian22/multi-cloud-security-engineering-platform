@@ -1,0 +1,5 @@
+name: constraints/compute.vmExternalIpAccess
+policy:
+  deniedValues:
+    - all
+purpose: Deny external IP addresses for VM instances unless exception is approved.
