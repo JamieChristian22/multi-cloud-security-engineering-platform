@@ -1,9 +1,0 @@
-title: GCP IAM Policy Change
-description: Detects IAM policy updates in Google Cloud.
-severity: medium
-log_source: gcp_audit_logs
-methodName: SetIamPolicy
-mitre:
-  tactic: Privilege Escalation
-  technique: Account Manipulation
-response: Compare previous and new bindings, remove unauthorized principals.

@@ -1,9 +1,0 @@
-title: Azure Privileged Role Assignment Change
-description: Detects new Azure role assignments for privileged roles.
-severity: high
-log_source: azure_activity
-query_logic: Administrative category where operationName contains roleAssignments/write
-mitre:
-  tactic: Privilege Escalation
-  technique: Valid Accounts
-response: Validate approver, remove unauthorized assignment, review sign-in logs.

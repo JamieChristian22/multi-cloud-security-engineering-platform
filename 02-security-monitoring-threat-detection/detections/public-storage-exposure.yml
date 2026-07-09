@@ -1,5 +1,0 @@
-title: Public Cloud Storage Exposure
-description: Detects public storage permissions across AWS S3, Azure Storage, and GCS.
-severity: critical
-clouds: [aws, azure, gcp]
-response: Remove public access, preserve logs, determine data sensitivity, notify data owner.
