@@ -1,7 +1,46 @@
-terraform { required_providers { aws = { source="hashicorp/aws", version="~> 5.0" } } }
-provider "aws" { region = var.aws_region }
-resource "aws_kms_key" "data" { description="KMS key for sensitive portfolio lab data" enable_key_rotation=true }
-resource "aws_secretsmanager_secret" "app_secret" { name="zero-trust/app/secret" kms_key_id=aws_kms_key.data.arn }
-resource "aws_vpc" "secure" { cidr_block="10.30.0.0/16" enable_dns_hostnames=true tags={Name="zero-trust-secure-vpc"} }
-resource "aws_subnet" "private" { vpc_id=aws_vpc.secure.id cidr_block="10.30.10.0/24" map_public_ip_on_launch=false }
-resource "aws_vpc_endpoint" "s3" { vpc_id=aws_vpc.secure.id service_name="com.amazonaws.${var.aws_region}.s3" vpc_endpoint_type="Gateway" }
+terraform {
+  required_version = ">= 1.6.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = var.aws_region
+}
+
+resource "aws_kms_key" "data_protection" {
+  description             = "KMS key for sensitive data protection"
+  deletion_window_in_days = 7
+  enable_key_rotation     = true
+}
+
+resource "aws_s3_bucket" "protected_data" {
+  bucket = var.bucket_name
+}
+
+resource "aws_s3_bucket_public_access_block" "protected_data" {
+  bucket                  = aws_s3_bucket.protected_data.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "protected_data" {
+  bucket = aws_s3_bucket.protected_data.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.data_protection.arn
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
+
+resource "aws_secretsmanager_secret" "application_secret" {
+  name = "enterprise/application/database-password"
+}

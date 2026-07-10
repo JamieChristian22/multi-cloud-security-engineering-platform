@@ -1,0 +1,6 @@
+name: require-uniform-bucket-level-access
+description: Requires IAM-based uniform bucket-level access.
+constraint: constraints/storage.uniformBucketLevelAccess
+policy:
+  rules:
+    - enforce: true

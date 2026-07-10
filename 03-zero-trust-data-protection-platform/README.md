@@ -1,55 +1,45 @@
-# Zero Trust & Data Protection Platform
+# 03 Zero Trust Data Protection Platform
 
-## Purpose
+This project demonstrates a multi-cloud zero trust and data protection architecture across AWS, Azure, and Google Cloud.
 
-This project demonstrates Private access, encryption, secrets management, segmentation, key governance across AWS, Azure, and GCP. It is written as an enterprise-style portfolio project for cloud security engineering roles.
+## Objective
 
-## Business Problem
+Implement a security model that protects sensitive data using least privilege access, encryption, identity-based controls, private network access, audit logging, and policy enforcement across multiple cloud providers.
 
-Organizations using multiple cloud providers often struggle with inconsistent security controls. Identity roles, logs, encryption, network rules, and compliance evidence are spread across platforms. This project provides a repeatable model for implementing consistent security practices across AWS, Azure, and GCP.
+## Core Capabilities
 
-## Architecture Summary
+- Identity-based access control
+- Least privilege permissions
+- Encryption at rest
+- Encryption in transit
+- Secret management
+- Data storage protection
+- Public access prevention
+- Audit logging
+- Policy enforcement
+- Incident response runbooks
+- Multi-cloud governance mapping
 
-- AWS environment using native security services and Terraform.
-- Azure environment using RBAC, policy, monitoring, and Bicep/Terraform examples.
-- GCP environment using IAM, organization policy, logging, and security services.
-- Documentation that explains architecture, deployment, validation, and incident response.
+## Cloud Service Mapping
+
+| Capability | AWS | Azure | Google Cloud |
+|---|---|---|---|
+| Identity | IAM | Microsoft Entra ID / RBAC | Cloud IAM |
+| Secrets | Secrets Manager | Key Vault | Secret Manager |
+| Encryption | KMS | Key Vault / Storage Encryption | Cloud KMS |
+| Object Storage | S3 | Storage Accounts | Cloud Storage |
+| Policy | IAM / SCP / Config | Azure Policy | Organization Policy |
+| Logging | CloudTrail | Activity Log | Cloud Audit Logs |
+| Security Posture | Security Hub | Defender for Cloud | Security Command Center |
 
 ## Folder Structure
 
 ```text
-03-zero-trust-data-protection-platform/
-├── architecture/
-├── detections/
-├── docs/
-├── evidence/
-├── policies/
-├── reports/
-├── runbooks/
-├── scripts/
-├── terraform/
-└── .github/workflows/
+architecture/
+docs/
+evidence/
+policies/
+runbooks/
+scripts/
+terraform/
 ```
-
-## Skills Demonstrated
-
-- Multi-cloud security engineering
-- Cloud IAM and least privilege
-- Infrastructure as Code
-- Detection engineering
-- Incident response
-- Compliance mapping
-- Security documentation
-- Audit evidence collection
-
-## How to Use
-
-1. Review `docs/architecture.md`.
-2. Review the Terraform/Bicep examples.
-3. Run `scripts/validate.sh` to check folder and file quality.
-4. Use the runbooks and evidence templates during cloud console demonstrations.
-5. Add screenshots from actual AWS, Azure, and GCP deployments.
-
-## Portfolio Rating
-
-This project is designed to be interview-ready because it combines architecture, code, documentation, detection logic, governance, and operational procedures.

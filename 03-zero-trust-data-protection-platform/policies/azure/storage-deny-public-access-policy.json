@@ -1,0 +1,25 @@
+{
+  "properties": {
+    "displayName": "Deny public blob access",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Prevents storage accounts from allowing public blob access.",
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/allowBlobPublicAccess",
+            "equals": true
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+name: enforce-public-access-prevention
+description: Enforces public access prevention for Cloud Storage buckets.
+constraint: constraints/storage.publicAccessPrevention
+policy:
+  rules:
+    - enforce: true
