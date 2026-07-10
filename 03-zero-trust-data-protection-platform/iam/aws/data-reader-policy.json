@@ -1,0 +1,13 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": ["s3:ListBucket","s3:GetObject","kms:Decrypt","secretsmanager:GetSecretValue"],
+    "Resource": [
+      "arn:aws:s3:::enterprise-sensitive-data-bucket",
+      "arn:aws:s3:::enterprise-sensitive-data-bucket/*",
+      "arn:aws:kms:us-east-1:123456789012:key/example-key-id",
+      "arn:aws:secretsmanager:us-east-1:123456789012:secret:enterprise/*"
+    ]
+  }]
+}
