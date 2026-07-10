@@ -1,0 +1,32 @@
+{
+  "widgets": [
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 0,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "title": "Lambda Errors",
+        "metrics": [["AWS/Lambda","Errors","FunctionName","security-incident-handler"]],
+        "period": 300,
+        "stat": "Sum",
+        "region": "us-east-1"
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 0,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "title": "Unauthorized API Calls",
+        "metrics": [["EnterpriseSecurity","UnauthorizedAPICallCount"]],
+        "period": 300,
+        "stat": "Sum",
+        "region": "us-east-1"
+      }
+    }
+  ]
+}
