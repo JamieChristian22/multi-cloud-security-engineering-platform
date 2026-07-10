@@ -1,0 +1,9 @@
+{
+  "filterName": "UnauthorizedAPICalls",
+  "filterPattern": "{ ($.errorCode = \"*UnauthorizedOperation\") || ($.errorCode = \"AccessDenied*\") }",
+  "metricTransformation": {
+    "metricName": "UnauthorizedAPICallCount",
+    "metricNamespace": "EnterpriseSecurity",
+    "metricValue": "1"
+  }
+}
