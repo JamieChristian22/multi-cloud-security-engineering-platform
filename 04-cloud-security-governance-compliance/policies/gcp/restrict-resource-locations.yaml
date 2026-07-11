@@ -1,0 +1,7 @@
+name: restrict-resource-locations
+constraint: constraints/gcp.resourceLocations
+policy:
+  rules:
+    - values:
+        allowedValues:
+          - in:us-locations

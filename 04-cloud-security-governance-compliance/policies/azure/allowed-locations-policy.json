@@ -1,0 +1,23 @@
+{
+  "properties": {
+    "displayName": "Allowed locations",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "parameters": {
+      "allowedLocations": {
+        "type": "Array"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "not": {
+          "field": "location",
+          "in": "[parameters('allowedLocations')]"
+        }
+      },
+      "then": {
+        "effect": "deny"
+      }
+    }
+  }
+}
