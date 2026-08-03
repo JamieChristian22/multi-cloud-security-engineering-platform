@@ -1,0 +1,32 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenySecurityControlTampering",
+      "Effect": "Deny",
+      "Action": [
+        "cloudtrail:StopLogging",
+        "cloudtrail:DeleteTrail",
+        "config:DeleteConfigRule",
+        "securityhub:DisableSecurityHub",
+        "guardduty:DeleteDetector",
+        "iam:DeleteAccountPasswordPolicy"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AllowApprovedServices",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:Describe*",
+        "s3:Get*",
+        "s3:List*",
+        "cloudwatch:Get*",
+        "cloudwatch:List*",
+        "logs:Get*",
+        "logs:Describe*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

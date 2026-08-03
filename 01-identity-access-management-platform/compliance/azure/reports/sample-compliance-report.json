@@ -1,0 +1,23 @@
+{
+  "report_type": "Azure IAM Compliance Lab Demonstration",
+  "generated_at": "2026-08-03T17:00:00Z",
+  "scope": "sanitized-lab-tenant",
+  "summary": {
+    "controls_assessed": 10,
+    "compliant": 9,
+    "partial": 1,
+    "noncompliant": 0
+  },
+  "findings": [
+    {
+      "control_id": "IAM-001",
+      "status": "Compliant",
+      "evidence": "Administrative MFA policy enforced"
+    },
+    {
+      "control_id": "IAM-004",
+      "status": "Partially Compliant",
+      "evidence": "One permanent privileged assignment queued for PIM conversion"
+    }
+  ]
+}

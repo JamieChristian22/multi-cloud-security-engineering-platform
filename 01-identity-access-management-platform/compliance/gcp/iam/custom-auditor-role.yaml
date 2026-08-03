@@ -1,0 +1,13 @@
+title: MultiCloudIamComplianceAuditor
+description: Read-only role for IAM compliance assessment
+stage: GA
+includedPermissions:
+  - iam.roles.get
+  - iam.roles.list
+  - resourcemanager.organizations.getIamPolicy
+  - resourcemanager.folders.getIamPolicy
+  - resourcemanager.projects.getIamPolicy
+  - serviceusage.services.list
+  - logging.logEntries.list
+  - securitycenter.findings.list
+  - securitycenter.sources.list

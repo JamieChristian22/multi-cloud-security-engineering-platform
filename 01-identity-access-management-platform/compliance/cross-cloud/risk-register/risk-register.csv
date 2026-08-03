@@ -1,0 +1,6 @@
+Risk ID,Risk,Scenario,Impact,Likelihood,Inherent Rating,Treatment,Owner,Status
+R-001,Overprivileged administrator role,Excessive permissions enable unauthorized change,Critical,Possible,Critical,"Restrict role, require approval, review quarterly",IAM Platform Owner,Open
+R-002,Inactive workforce account,Dormant identity can be abused,High,Possible,High,Disable after threshold and investigate owner,Identity Operations,Open
+R-003,Long-lived service credential,Credential leakage creates persistent access,High,Likely,Critical,Replace with workload identity federation,Cloud Engineering,Open
+R-004,Unmonitored break-glass account,Emergency identity could be abused without detection,Critical,Unlikely,High,Alert on every sign-in and test quarterly,Security Operations,Open
+R-005,External guest retains access,Former partner can access cloud resources,High,Possible,High,Quarterly guest review and expiration,Application Owner,Open

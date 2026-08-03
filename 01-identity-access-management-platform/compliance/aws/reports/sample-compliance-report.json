@@ -1,0 +1,28 @@
+{
+  "report_type": "AWS IAM Compliance Lab Demonstration",
+  "generated_at": "2026-08-03T17:00:00Z",
+  "scope": "sanitized-lab-account",
+  "summary": {
+    "controls_assessed": 10,
+    "compliant": 8,
+    "partial": 1,
+    "noncompliant": 1
+  },
+  "findings": [
+    {
+      "control_id": "IAM-001",
+      "status": "Compliant",
+      "evidence": "MFA enabled for all interactive privileged identities"
+    },
+    {
+      "control_id": "IAM-003",
+      "status": "Noncompliant",
+      "evidence": "One inactive access key older than 90 days identified"
+    },
+    {
+      "control_id": "IAM-007",
+      "status": "Partially Compliant",
+      "evidence": "One workload still uses a long-lived key"
+    }
+  ]
+}

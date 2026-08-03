@@ -1,0 +1,11 @@
+Control ID,Control,Severity,Status,Assessment Date,Assessor
+IAM-001,MFA for privileged interactive access,Critical,Compliant,2026-08-03,Jamie Christian
+IAM-002,Least-privilege role assignment,High,Compliant,2026-08-03,Jamie Christian
+IAM-003,Inactive identity review,High,Compliant,2026-08-03,Jamie Christian
+IAM-004,Privileged access review,Critical,Compliant,2026-08-03,Jamie Christian
+IAM-005,Identity event logging,Critical,Compliant,2026-08-03,Jamie Christian
+IAM-006,Service identity ownership,High,Compliant,2026-08-03,Jamie Christian
+IAM-007,Static credential reduction,High,Partially Compliant,2026-08-03,Jamie Christian
+IAM-008,External trust review,High,Partially Compliant,2026-08-03,Jamie Christian
+IAM-009,Break-glass account control,Critical,Compliant,2026-08-03,Jamie Christian
+IAM-010,Access change approval,Medium,Compliant,2026-08-03,Jamie Christian

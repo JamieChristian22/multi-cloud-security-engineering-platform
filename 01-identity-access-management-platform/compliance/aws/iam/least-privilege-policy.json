@@ -1,0 +1,22 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadSecurityPosture",
+      "Effect": "Allow",
+      "Action": [
+        "iam:GenerateCredentialReport",
+        "iam:GetCredentialReport",
+        "iam:GetAccountSummary",
+        "access-analyzer:ListAnalyzers",
+        "access-analyzer:ListFindings",
+        "securityhub:GetFindings",
+        "securityhub:DescribeHub",
+        "config:DescribeComplianceByConfigRule",
+        "cloudtrail:DescribeTrails",
+        "cloudtrail:GetTrailStatus"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

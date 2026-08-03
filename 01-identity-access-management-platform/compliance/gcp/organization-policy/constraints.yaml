@@ -1,0 +1,16 @@
+name: organizations/123456789/policies/iam.disableServiceAccountKeyCreation
+spec:
+  rules:
+    - enforce: true
+---
+name: organizations/123456789/policies/iam.disableServiceAccountKeyUpload
+spec:
+  rules:
+    - enforce: true
+---
+name: organizations/123456789/policies/iam.allowedPolicyMemberDomains
+spec:
+  rules:
+    - values:
+        allowedValues:
+          - C0123abc

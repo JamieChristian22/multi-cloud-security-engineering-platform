@@ -1,0 +1,11 @@
+Control ID,Control,NIST 800-53,NIST CSF,AWS,Azure,GCP,Severity,Review Frequency
+IAM-001,MFA for privileged interactive access,IA-2,Protect,AWS IAM MFA / Identity Center,Entra Conditional Access,Cloud Identity 2-Step Verification,Critical,Quarterly
+IAM-002,Least-privilege role assignment,AC-6,Protect,IAM roles and Access Analyzer,Azure RBAC and PIM,IAM roles and Policy Analyzer,High,Monthly
+IAM-003,Inactive identity review,AC-2,Identify,Credential report,Sign-in and account activity,IAM recommender and audit logs,High,Monthly
+IAM-004,Privileged access review,"AC-2, AC-6",Govern,Administrator policy review,PIM access review,Organization role review,Critical,Quarterly
+IAM-005,Identity event logging,AU-2,Detect,CloudTrail,Entra sign-in and audit logs,Cloud Audit Logs,Critical,Continuous
+IAM-006,Service identity ownership,IA-4,Govern,IAM role tags,Managed identity metadata,Service account labels,High,Quarterly
+IAM-007,Static credential reduction,IA-5,Protect,STS and roles,Managed identities,Workload Identity Federation,High,Monthly
+IAM-008,External trust review,AC-3,Identify,Role trust policies,Guest users and app consent,IAM policy bindings,High,Monthly
+IAM-009,Break-glass account control,"CP-2, IA-2",Recover,Emergency role/account,Emergency access account,Emergency super admin,Critical,Quarterly
+IAM-010,Access change approval,CM-3,Govern,Git review and CloudTrail,Azure Policy/RBAC audit,Cloud Audit Logs,Medium,Continuous

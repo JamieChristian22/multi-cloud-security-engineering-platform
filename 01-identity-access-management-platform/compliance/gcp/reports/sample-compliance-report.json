@@ -1,0 +1,23 @@
+{
+  "report_type": "GCP IAM Compliance Lab Demonstration",
+  "generated_at": "2026-08-03T17:00:00Z",
+  "scope": "sanitized-lab-organization",
+  "summary": {
+    "controls_assessed": 10,
+    "compliant": 8,
+    "partial": 2,
+    "noncompliant": 0
+  },
+  "findings": [
+    {
+      "control_id": "IAM-002",
+      "status": "Partially Compliant",
+      "evidence": "One project retains a primitive Editor binding"
+    },
+    {
+      "control_id": "IAM-007",
+      "status": "Partially Compliant",
+      "evidence": "One service-account key scheduled for federation migration"
+    }
+  ]
+}

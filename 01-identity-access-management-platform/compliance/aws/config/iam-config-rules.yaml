@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS Config managed rules for IAM compliance monitoring
+Resources:
+  RootAccountMFAEnabled:
+    Type: AWS::Config::ConfigRule
+    Properties:
+      ConfigRuleName: root-account-mfa-enabled
+      Source:
+        Owner: AWS
+        SourceIdentifier: ROOT_ACCOUNT_MFA_ENABLED
+
+  MFAEnabledForIAMConsoleAccess:
+    Type: AWS::Config::ConfigRule
+    Properties:
+      ConfigRuleName: mfa-enabled-for-iam-console-access
+      Source:
+        Owner: AWS
+        SourceIdentifier: MFA_ENABLED_FOR_IAM_CONSOLE_ACCESS
+
+  IAMUserUnusedCredentialsCheck:
+    Type: AWS::Config::ConfigRule
+    Properties:
+      ConfigRuleName: iam-user-unused-credentials-check
+      InputParameters:
+        maxCredentialUsageAge: '90'
+      Source:
+        Owner: AWS
+        SourceIdentifier: IAM_USER_UNUSED_CREDENTIALS_CHECK
+
+  AccessKeysRotated:
+    Type: AWS::Config::ConfigRule
+    Properties:
+      ConfigRuleName: access-keys-rotated
+      InputParameters:
+        maxAccessKeyAge: '90'
+      Source:
+        Owner: AWS
+        SourceIdentifier: ACCESS_KEYS_ROTATED
