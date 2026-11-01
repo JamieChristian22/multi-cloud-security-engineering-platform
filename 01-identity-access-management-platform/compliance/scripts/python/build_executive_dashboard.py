@@ -1,30 +1,18 @@
 #!/usr/bin/env python3
+"""Build an evidence-limited executive summary from a sample control CSV."""
 from __future__ import annotations
-import csv, json, argparse
+import argparse
+import json
 from pathlib import Path
+from compliance_metrics import read_controls, summarize
 
 def main() -> int:
-    ap = argparse.ArgumentParser()
+    ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("status_csv", type=Path)
     ap.add_argument("--output", type=Path, default=Path("executive-dashboard.json"))
     args = ap.parse_args()
-
-    counts = {"Compliant":0,"Partially Compliant":0,"Noncompliant":0,"Not Applicable":0}
-    severity = {"Critical":0,"High":0,"Medium":0,"Low":0}
-    rows = list(csv.DictReader(args.status_csv.open(encoding="utf-8")))
-    for row in rows:
-        counts[row["Status"]] = counts.get(row["Status"], 0) + 1
-        if row["Status"] != "Compliant":
-            severity[row["Severity"]] = severity.get(row["Severity"], 0) + 1
-
-    total = sum(counts.values())
-    score = round(((counts["Compliant"] + 0.5*counts["Partially Compliant"]) / total) * 100, 1) if total else 100
-    payload = {
-        "control_count": total,
-        "compliance_score": score,
-        "status_breakdown": counts,
-        "open_findings_by_severity": severity
-    }
+    payload = summarize(read_controls(args.status_csv))
+    args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     print(args.output)
     return 0
