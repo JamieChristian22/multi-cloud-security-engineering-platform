@@ -1,0 +1,104 @@
+name: Multi-cloud security and evidence validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence:
+    name: Compliance evidence, 15-root HCL parsing and Python tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository without persisted credentials
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Set up Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - name: Install source validation dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Check Python syntax
+        run: python -m compileall -q 01-identity-access-management-platform/compliance/scripts/python scripts tests
+      - name: Parse all 15 Terraform roots and validate source evidence
+        run: python scripts/validate_multicloud.py --output reports/multicloud-source-validation.json
+      - name: Run existing and new regression tests
+        run: python -m pytest -q tests 01-identity-access-management-platform/compliance/tests
+      - name: Generate illustrative scored dashboard
+        run: |
+          python 01-identity-access-management-platform/compliance/scripts/python/score_controls.py \
+            01-identity-access-management-platform/compliance/cross-cloud/audit/control-status.csv
+          python 01-identity-access-management-platform/compliance/scripts/python/build_executive_dashboard.py \
+            01-identity-access-management-platform/compliance/cross-cloud/audit/control-status.csv \
+            --output reports/sample-iam-score.json
+      - name: Upload source evidence and interactive dashboard
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: multi-cloud-source-evidence
+          if-no-files-found: warn
+          retention-days: 14
+          path: |
+            reports/multicloud-source-validation.json
+            reports/sample-iam-score.json
+            demo/multicloud-posture.html
+
+  terraform:
+    name: Provider validation (sample IAM compliance roots)
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        provider: [aws, azure, gcp]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+        with:
+          terraform_version: '1.9.8'
+          terraform_wrapper: false
+      - name: Initialize and validate without cloud access or applying resources
+        env:
+          TF_IN_AUTOMATION: 'true'
+          AWS_EC2_METADATA_DISABLED: 'true'
+          ARM_SKIP_PROVIDER_REGISTRATION: 'true'
+        run: |
+          set -euo pipefail
+          root="01-identity-access-management-platform/compliance/terraform/${{ matrix.provider }}"
+          terraform -chdir="${root}" init -backend=false -input=false -no-color
+          terraform -chdir="${root}" validate -no-color
+          test -s "${root}/.terraform.lock.hcl"
+
+  secrets:
+    name: Full-history Gitleaks scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout repository history
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Download and verify Gitleaks
+        run: |
+          curl --fail --location --retry 3 --silent --show-error \
+            https://github.com/gitleaks/gitleaks/releases/download/v8.24.2/gitleaks_8.24.2_linux_x64.tar.gz \
+            -o /tmp/gitleaks.tar.gz
+          echo 'fa0500f6b7e41d28791ebc680f5dd9899cd42b58629218a5f041efa899151a8e  /tmp/gitleaks.tar.gz' | sha256sum --check
+          tar -xzf /tmp/gitleaks.tar.gz -C /tmp gitleaks
+          chmod +x /tmp/gitleaks
+      - name: Scan all committed history
+        run: /tmp/gitleaks git --no-banner --redact .
