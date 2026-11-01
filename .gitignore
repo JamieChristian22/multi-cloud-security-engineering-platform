@@ -216,3 +216,21 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Multi-cloud local credentials and infrastructure state
+.env.*
+!.env.example
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.*
+**/*.tfplan
+**/terraform.tfvars
+**/backend.hcl
+**/terraform.tfstate.backup
+*.pem
+*.p12
+*.key
+# Keep reviewed provider lockfiles in Git when generated.
+!**/.terraform.lock.hcl
+# Transient source validation reports
+reports/
