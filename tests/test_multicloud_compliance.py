@@ -81,3 +81,18 @@ def test_source_checker_counts_all_cloud_roots_and_no_unknown_status():
     assert result["terraform_roots"] == 15
     assert result["terraform_roots_by_provider"] == {"aws": 5, "azure": 5, "gcp": 5}
     assert result["illustrative_iam_summary"]["control_count"] == 10
+
+def test_checkov_findings_report_does_not_falsely_claim_compliance():
+    spec = importlib.util.spec_from_file_location("summarize_checkov", ROOT / "scripts/summarize_checkov.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    report = mod.summarize({
+        "results": {"passed_checks": [{"check_id": "A"}],
+                    "failed_checks": [{"check_id": "B", "severity": "HIGH"}]}
+    })
+    assert report["failed_checks"] == 1
+    assert report["all_policy_checks_pass"] is False
+    assert report["blocking_ci_gate"] is False
+    assert report["failed_by_severity"]["HIGH"] == 1
+    with pytest.raises(ValueError):
+        mod.summarize({"no_results": True})
