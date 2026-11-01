@@ -1,32 +1,20 @@
 #!/usr/bin/env python3
-"""Calculate a weighted compliance score from a control-status CSV."""
-from __future__ import annotations
+"""Score a sample IAM control-status register using severity-weighted outcomes."""
 import argparse
-import csv
 from pathlib import Path
-
-WEIGHTS = {"Critical": 5, "High": 3, "Medium": 2, "Low": 1}
-SCORES = {"Compliant": 1.0, "Partially Compliant": 0.5, "Noncompliant": 0.0, "Not Applicable": None}
+from compliance_metrics import read_controls, summarize
 
 def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("csv_file", type=Path)
-    args = parser.parse_args()
-
-    earned = possible = 0.0
-    with args.csv_file.open(encoding="utf-8") as handle:
-        for row in csv.DictReader(handle):
-            severity = row["Severity"].strip()
-            status = row["Status"].strip()
-            weight = WEIGHTS[severity]
-            factor = SCORES[status]
-            if factor is None:
-                continue
-            possible += weight
-            earned += weight * factor
-
-    score = 100.0 if possible == 0 else (earned / possible) * 100
-    print(f"Weighted compliance score: {score:.1f}%")
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("csv_file", type=Path)
+    args = ap.parse_args()
+    result = summarize(read_controls(args.csv_file))
+    score = result["weighted_compliance_score"]
+    if score is None:
+        print("Weighted compliance score: N/A (no applicable controls)")
+    else:
+        print(f"Weighted compliance score: {score:.1f}%")
+    print("Scope: illustrative IAM register; no live cloud verification.")
     return 0
 
 if __name__ == "__main__":
