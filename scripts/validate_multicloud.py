@@ -13,12 +13,12 @@ from collections import Counter
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 COMPLIANCE = ROOT / "01-identity-access-management-platform" / "compliance"
-ROOTS = sorted((ROOT / "01-identity-access-management-platform").glob("terraform/*"))
-ROOTS += sorted(COMPLIANCE.glob("terraform/*"))
+ROOTS = sorted(p for p in (ROOT / "01-identity-access-management-platform").glob("terraform/*") if p.is_dir())
+ROOTS += sorted(p for p in COMPLIANCE.glob("terraform/*") if p.is_dir())
 for section in ("02-security-monitoring-threat-detection",
                 "03-zero-trust-data-protection-platform",
                 "04-cloud-security-governance-compliance"):
-    ROOTS += sorted((ROOT / section / "terraform").glob("*"))
+    ROOTS += sorted(p for p in (ROOT / section / "terraform").glob("*") if p.is_dir())
 EXPECTED = {"aws", "azure", "gcp"}
 COMPLIANCE_PY = COMPLIANCE / "scripts" / "python"
 sys.path.insert(0, str(COMPLIANCE_PY))
