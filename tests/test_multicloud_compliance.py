@@ -26,7 +26,7 @@ def test_sample_weighted_score_matches_manual_expected():
     assert result["weight_earned"] == 34
 
 def test_no_applicable_controls_is_not_falsely_100_percent():
-    result = summarize([{"Status": "Not Applicable", "Severity": "Critical"}])
+    result = summarize([{"Status": "Not Applicable", "Severity": "Critical", "Assessment Date": "2026-08-03"}])
     assert result["weighted_compliance_score"] is None
     assert result["excluded_not_applicable"] == 1
     assert result["open_findings_by_severity"]["Critical"] == 0
