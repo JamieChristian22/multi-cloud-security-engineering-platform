@@ -51,6 +51,12 @@ Historical `Assessment Date` and `Assessor` fields are copied from the sample CS
 
 The remaining 12 Terraform roots are syntax-checked, **not provider-schema validated** in this first CI phase. Add separate provider validation and policy-as-code evaluation for the other roots before claiming that all infrastructure is deployable. Review and commit generated `.terraform.lock.hcl` files once provider updates are approved.
 
+## Advisory static IaC security findings (first run: 2026-11-01)
+
+The `iac-policy` job runs Checkov over all Terraform roots and uploads both the raw `checkov-findings.json` and a summary. **This job is advisory, not a security pass gate.** In [GitHub Actions run #41339673947](https://github.com/JamieChristian22/multi-cloud-security-engineering-platform/actions/runs/41339673947), Checkov evaluated **101 policy checks: 60 passed and 41 failed**. The findings require security review, not automatic acceptance or claims that the IaC is fully hardened. The Checkov output did not provide severities for these checks, so the summary correctly labels them `UNSPECIFIED` instead of inventing a risk rating.
+
+Download the `multicloud-iac-security-findings` artifact from that Actions run and triage each failure by file, rule, relevant risk and required action. Where a rule is intentionally inapplicable, document a specific exception and reviewer; do not globally suppress the security scan. A future promotion gate should make resolved findings blocking and add provider-schema validation for the remaining 12 roots.
+
 ## Risks and future work
 
 Cloud security settings in this repository are **reference designs**. Deployment needs independent reviews of least privilege, S3/Blob/GCS public access, logs, encryption, identity trust, alert delivery, account/tenant/project ownership and cost limits. Some source configurations could be incomplete or unsafe for production; do not deploy them unchanged.
