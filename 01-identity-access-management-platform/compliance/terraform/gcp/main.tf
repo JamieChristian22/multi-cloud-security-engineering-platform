@@ -27,5 +27,5 @@ resource "google_project_service" "required" {
 resource "google_logging_project_sink" "iam_audit" {
   name        = "iam-audit-sink"
   destination = "logging.googleapis.com/projects/${var.project_id}/locations/global/buckets/_Default"
-  filter      = "protoPayload.serviceName=("iam.googleapis.com" OR "cloudresourcemanager.googleapis.com")"
+  filter      = "protoPayload.serviceName=(\\\"iam.googleapis.com\\\" OR \\\"cloudresourcemanager.googleapis.com\\\")"
 }
