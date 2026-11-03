@@ -12,6 +12,22 @@
 
 ---
 
+## Interactive Multi-Cloud Security Demonstration
+
+[![Multi-cloud security CI](https://github.com/JamieChristian22/multi-cloud-security-engineering-platform/actions/workflows/multicloud-security-ci.yml/badge.svg)](https://github.com/JamieChristian22/multi-cloud-security-engineering-platform/actions/workflows/multicloud-security-ci.yml)
+
+**[Explore the offline cross-cloud IAM dashboard](demo/multicloud-posture.html)** · [Source, validation and limitations](docs/VALIDATION_AND_DEMO.md)
+
+The interactive dashboard shows **10 illustrative IAM controls**, conceptual AWS/Azure/GCP implementation mappings, and five risk-register entries from existing repository CSVs. Review controls by severity, example compliance status and provider mapping. It does **not** connect to actual cloud services or establish live compliance.
+
+**Engineering validation:** The new [GitHub Actions workflow](.github/workflows/multicloud-security-ci.yml) tests severity-weighted compliance scoring, source integrity, all 15 Terraform roots for HCL syntax, and native `terraform validate` on **three** IAM compliance sample roots (one per cloud), with no plan/apply or cloud credentials. The remaining 12 roots are syntax checked but not provider-schema validated. It also scans Git history for leaked secrets. Always confirm the status of the specific workflow run before making CI-success claims.
+
+**IaC security debt:** The first hosted Checkov scan evaluated 101 Terraform policies and reported **41 potential findings requiring review** (60 checks passed). This is an **advisory** job; a green workflow does not mean all IaC security controls passed. Review [the full findings artifact](https://github.com/JamieChristian22/multi-cloud-security-engineering-platform/actions/runs/41339673947) and [validation limitations](docs/VALIDATION_AND_DEMO.md).
+
+**Sample assessment limitation:** Labels such as "Compliant" are illustrative records dated in the source; they are not real-time evidence of any AWS account, Azure tenant or GCP project security posture.
+
+---
+
 # 📖 Overview
 
 Welcome to my **Multi-Cloud Security Engineering Platform**.

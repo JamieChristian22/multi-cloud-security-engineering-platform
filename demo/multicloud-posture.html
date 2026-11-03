@@ -1,0 +1,80 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Multi-Cloud IAM Security | Evidence Explorer</title>
+<style>
+:root{font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;background:#f0f4f8;color:#153146}
+*{box-sizing:border-box}body{margin:0}header{background:linear-gradient(120deg,#0a2740,#155d70);color:white;padding:3rem max(1.2rem,calc((100vw - 1100px)/2));}
+header h1{font-size:clamp(2rem,4vw,3rem);letter-spacing:-.025em;line-height:1.15;margin:.5rem 0}header p{max-width:800px;color:#d4e8ed}
+.kicker{color:#8bf0d0;text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;font-weight:800}
+main{max-width:1140px;margin:auto;padding:1.3rem 1.2rem 3rem}
+.note{padding:1rem 1.2rem;background:white;border-left:5px solid #b87828;line-height:1.55;margin-bottom:1.2rem;border-radius:5px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;margin-bottom:1rem}
+.metric{background:white;border:1px solid #d0dfe7;padding:1rem;border-radius:12px}.metric strong{display:block;font-size:1.75rem;letter-spacing:-.025em}.metric small{color:#48677c}
+.filters{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:.85rem;background:#fff;border:1px solid #d0dfe7;border-radius:12px;padding:1rem;margin:1rem 0}
+label{display:block;font-size:.83rem;font-weight:700;margin-bottom:.3rem}
+input,select{background:white;color:#16334b;width:100%;padding:.65rem;border:1px solid #8ba9b8;border-radius:7px;font:inherit;min-width:0}
+:focus-visible{outline:3px solid #e5a030;outline-offset:2px}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:1rem}.panel{min-width:0;background:#fff;border:1px solid #d0dfe7;border-radius:12px;padding:1.1rem}.panel h2{font-size:1.2rem;margin:0 0 .4rem}
+#list{display:grid;gap:.8rem;max-height:820px;overflow-y:auto}.item{padding:1rem;border:1px solid #d6e2e9;border-radius:9px;background:#fcfeff}
+.item h3{margin:.3rem 0;font-size:1rem}.item p{font-size:.85rem;color:#4d6475;margin:.2rem 0}
+.meta{font-size:.75rem;font-weight:800;letter-spacing:.03em;color:#235d77}.pill{display:inline-block;border-radius:99px;padding:.15rem .5rem;background:#e6f3ec;color:#186042;font-weight:750;font-size:.77rem}.pill.partial{background:#fff0d5;color:#77510d}.pill.bad{background:#ffddda;color:#9d2828}
+.maprow{display:grid;grid-template-columns:70px 1fr;gap:.4rem;margin:.35rem 0;font-size:.83rem}.maprow b{color:#305c73}.hint{font-size:.83rem;color:#4c667b;line-height:1.6}
+#risks{margin:.7rem 0 0;padding-left:1.1rem;font-size:.86rem}#risks li{margin:.6rem 0}a{color:#075b86}footer{font-size:.83rem;color:#4b6779;margin-top:1.4rem}
+@media(max-width:820px){.grid{grid-template-columns:1fr}.filters{grid-template-columns:repeat(2,1fr)}.metrics{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.filters{grid-template-columns:1fr}.metrics{grid-template-columns:1fr}}
+</style></head><body>
+<header><div class="kicker">Multi-cloud security · Offline portfolio evidence</div><h1>Identity & Compliance Explorer</h1>
+<p>Review an illustrative IAM control assessment, compare AWS/Azure/GCP implementation mappings, and inspect outstanding risk-register scenarios. All data is embedded from committed CSV files; no cloud accounts are queried.</p></header>
+<main>
+<div class="note"><strong>Evidence boundary:</strong> This is a simulated compliance portfolio, not a continuous security scanner or certification. The sample "Compliant" label reflects a documented example, <strong>not independently verified live AWS, Azure, or GCP enforcement</strong>. Assessment dates shown are historical.</div>
+<section class="metrics" aria-label="Illustrative assessment summary">
+<div class="metric"><strong id="score">—</strong><small>Severity-weighted score (sample)</small></div>
+<div class="metric"><strong id="total">—</strong><small>IAM controls in sample</small></div>
+<div class="metric"><strong id="partial">—</strong><small>Open partial/noncompliant controls</small></div>
+<div class="metric"><strong id="risksCount">—</strong><small>Risk-register scenarios</small></div></section>
+<section class="filters" aria-label="Assessment filters">
+<div><label for="query">Search controls</label><input type="search" id="query" placeholder="e.g. MFA, credential, access"></div>
+<div><label for="provider">Show provider mapping</label><select id="provider"><option value="All">All providers</option><option>AWS</option><option>Azure</option><option>GCP</option></select></div>
+<div><label for="status">Assessment status</label><select id="status"><option value="All">All statuses</option><option>Compliant</option><option>Partially Compliant</option><option>Noncompliant</option><option>Not Applicable</option></select></div>
+<div><label for="severity">Severity</label><select id="severity"><option value="All">All severities</option><option>Critical</option><option>High</option><option>Medium</option><option>Low</option></select></div>
+</section>
+<div class="grid">
+<section class="panel" aria-labelledby="controlTitle"><h2 id="controlTitle">IAM control sample</h2><p id="count" class="hint" role="status" aria-live="polite"></p><div id="list"></div></section>
+<aside class="panel"><h2>Risk register</h2><p class="hint">These are documented example risks, not active incidents or measured exposure.</p><ul id="risks"></ul><h2>Assessment interpretation</h2><p id="dateInfo" class="hint"></p><p class="hint">Weighted score: Critical=5, High=3, Medium=2, Low=1; partial compliance receives 50% credit; Not Applicable is excluded. When no controls are applicable, the score is undefined rather than 100%.</p><p class="hint"><a href="../01-identity-access-management-platform/compliance/cross-cloud/audit/control-status.csv">Control-status CSV</a> · <a href="../01-identity-access-management-platform/compliance/cross-cloud/control-mappings/control-matrix.csv">Cross-cloud matrix</a> · <a href="../01-identity-access-management-platform/compliance/cross-cloud/risk-register/risk-register.csv">Risk register</a></p></aside></div>
+<footer>All values and mappings are from repository CSVs. The diagram- and control-mapping references are conceptual, not proof of actual service configuration. Source-parity tests fail if the embedded sample disagrees with the canonical files.</footer></main>
+<script type="application/json" id="sample-data">{"schema_version":1,"source":"Illustrative IAM register and cross-cloud mappings; no live cloud assessment","controls":[{"Control ID":"IAM-001","Control":"MFA for privileged interactive access","Severity":"Critical","Status":"Compliant","Assessment Date":"2026-08-03","Assessor":"Jamie Christian"},{"Control ID":"IAM-002","Control":"Least-privilege role assignment","Severity":"High","Status":"Compliant","Assessment Date":"2026-08-03","Assessor":"Jamie Christian"},{"Control ID":"IAM-003","Control":"Inactive identity review","Severity":"High","Status":"Compliant","Assessment Date":"2026-08-03","Assessor":"Jamie Christian"},{"Control ID":"IAM-004","Control":"Privileged access review","Severity":"Critical","Status":"Compliant","Assessment Date":"2026-08-03","Assessor":"Jamie Christian"},{"Control ID":"IAM-005","Control":"Identity event logging","Severity":"Critical","Status":"Compliant","Assessment Date":"2026-08-03","Assessor":"Jamie Christian"},{"Control ID":"IAM-006","Control":"Service identity ownership","Severity":"High","Status":"Compliant","Assessment Date":"2026-08-03","Assessor":"Jamie Christian"},{"Control ID":"IAM-007","Control":"Static credential reduction","Severity":"High","Status":"Partially Compliant","Assessment Date":"2026-08-03","Assessor":"Jamie Christian"},{"Control ID":"IAM-008","Control":"External trust review","Severity":"High","Status":"Partially Compliant","Assessment Date":"2026-08-03","Assessor":"Jamie Christian"},{"Control ID":"IAM-009","Control":"Break-glass account control","Severity":"Critical","Status":"Compliant","Assessment Date":"2026-08-03","Assessor":"Jamie Christian"},{"Control ID":"IAM-010","Control":"Access change approval","Severity":"Medium","Status":"Compliant","Assessment Date":"2026-08-03","Assessor":"Jamie Christian"}],"mappings":[{"Control ID":"IAM-001","Control":"MFA for privileged interactive access","NIST 800-53":"IA-2","NIST CSF":"Protect","AWS":"AWS IAM MFA / Identity Center","Azure":"Entra Conditional Access","GCP":"Cloud Identity 2-Step Verification","Severity":"Critical","Review Frequency":"Quarterly"},{"Control ID":"IAM-002","Control":"Least-privilege role assignment","NIST 800-53":"AC-6","NIST CSF":"Protect","AWS":"IAM roles and Access Analyzer","Azure":"Azure RBAC and PIM","GCP":"IAM roles and Policy Analyzer","Severity":"High","Review Frequency":"Monthly"},{"Control ID":"IAM-003","Control":"Inactive identity review","NIST 800-53":"AC-2","NIST CSF":"Identify","AWS":"Credential report","Azure":"Sign-in and account activity","GCP":"IAM recommender and audit logs","Severity":"High","Review Frequency":"Monthly"},{"Control ID":"IAM-004","Control":"Privileged access review","NIST 800-53":"AC-2, AC-6","NIST CSF":"Govern","AWS":"Administrator policy review","Azure":"PIM access review","GCP":"Organization role review","Severity":"Critical","Review Frequency":"Quarterly"},{"Control ID":"IAM-005","Control":"Identity event logging","NIST 800-53":"AU-2","NIST CSF":"Detect","AWS":"CloudTrail","Azure":"Entra sign-in and audit logs","GCP":"Cloud Audit Logs","Severity":"Critical","Review Frequency":"Continuous"},{"Control ID":"IAM-006","Control":"Service identity ownership","NIST 800-53":"IA-4","NIST CSF":"Govern","AWS":"IAM role tags","Azure":"Managed identity metadata","GCP":"Service account labels","Severity":"High","Review Frequency":"Quarterly"},{"Control ID":"IAM-007","Control":"Static credential reduction","NIST 800-53":"IA-5","NIST CSF":"Protect","AWS":"STS and roles","Azure":"Managed identities","GCP":"Workload Identity Federation","Severity":"High","Review Frequency":"Monthly"},{"Control ID":"IAM-008","Control":"External trust review","NIST 800-53":"AC-3","NIST CSF":"Identify","AWS":"Role trust policies","Azure":"Guest users and app consent","GCP":"IAM policy bindings","Severity":"High","Review Frequency":"Monthly"},{"Control ID":"IAM-009","Control":"Break-glass account control","NIST 800-53":"CP-2, IA-2","NIST CSF":"Recover","AWS":"Emergency role/account","Azure":"Emergency access account","GCP":"Emergency super admin","Severity":"Critical","Review Frequency":"Quarterly"},{"Control ID":"IAM-010","Control":"Access change approval","NIST 800-53":"CM-3","NIST CSF":"Govern","AWS":"Git review and CloudTrail","Azure":"Azure Policy/RBAC audit","GCP":"Cloud Audit Logs","Severity":"Medium","Review Frequency":"Continuous"}],"risks":[{"Risk ID":"R-001","Risk":"Overprivileged administrator role","Scenario":"Excessive permissions enable unauthorized change","Impact":"Critical","Likelihood":"Possible","Inherent Rating":"Critical","Treatment":"Restrict role, require approval, review quarterly","Owner":"IAM Platform Owner","Status":"Open"},{"Risk ID":"R-002","Risk":"Inactive workforce account","Scenario":"Dormant identity can be abused","Impact":"High","Likelihood":"Possible","Inherent Rating":"High","Treatment":"Disable after threshold and investigate owner","Owner":"Identity Operations","Status":"Open"},{"Risk ID":"R-003","Risk":"Long-lived service credential","Scenario":"Credential leakage creates persistent access","Impact":"High","Likelihood":"Likely","Inherent Rating":"Critical","Treatment":"Replace with workload identity federation","Owner":"Cloud Engineering","Status":"Open"},{"Risk ID":"R-004","Risk":"Unmonitored break-glass account","Scenario":"Emergency identity could be abused without detection","Impact":"Critical","Likelihood":"Unlikely","Inherent Rating":"High","Treatment":"Alert on every sign-in and test quarterly","Owner":"Security Operations","Status":"Open"},{"Risk ID":"R-005","Risk":"External guest retains access","Scenario":"Former partner can access cloud resources","Impact":"High","Likelihood":"Possible","Inherent Rating":"High","Treatment":"Quarterly guest review and expiration","Owner":"Application Owner","Status":"Open"}]}</script>
+<script>
+"use strict";
+(function(){
+const data=JSON.parse(document.getElementById("sample-data").textContent);
+const pick=id=>document.getElementById(id);
+const controlById=new Map(data.mappings.map(x=>[x["Control ID"],x]));
+const weights={Critical:5,High:3,Medium:2,Low:1},factors={Compliant:1,"Partially Compliant":.5,Noncompliant:0,"Not Applicable":null};
+const eligible=data.controls.filter(c=>factors[c.Status]!==null);
+const possible=eligible.reduce((n,c)=>n+weights[c.Severity],0);
+const earned=eligible.reduce((n,c)=>n+weights[c.Severity]*factors[c.Status],0);
+pick("score").textContent=possible?(100*earned/possible).toFixed(1)+"%":"N/A";
+pick("total").textContent=data.controls.length;
+pick("partial").textContent=data.controls.filter(x=>x.Status==="Partially Compliant"||x.Status==="Noncompliant").length;
+pick("risksCount").textContent=data.risks.length;
+pick("dateInfo").textContent="Sample assessment date(s): "+[...new Set(data.controls.map(c=>c["Assessment Date"]))].join(", ")+". This is not a present-day assessment.";
+function make(tag,text,cls){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;}
+for(const risk of data.risks){const li=make("li",risk["Risk ID"]+" · "+risk.Risk+" — "+risk.Status);pick("risks").append(li);}
+function render(){
+const q=pick("query").value.trim().toLowerCase(),provider=pick("provider").value,sta=pick("status").value,sev=pick("severity").value;
+const filtered=data.controls.filter(c=>{const m=controlById.get(c["Control ID"])||{};return (sta==="All"||sta===c.Status)&&(sev==="All"||sev===c.Severity)&&[c.Control,c["Control ID"],provider==="All"?[m.AWS,m.Azure,m.GCP].join(" "):m[provider]].join(" ").toLowerCase().includes(q)});
+pick("count").textContent=filtered.length+" of "+data.controls.length+" controls displayed";
+const list=pick("list");list.replaceChildren();
+if(!filtered.length)list.append(make("p","No controls match your filters."));
+for(const c of filtered){
+const m=controlById.get(c["Control ID"])||{};
+const item=make("article",undefined,"item");
+item.append(make("span",c["Control ID"]+" · "+c.Severity,"meta"));
+item.append(make("h3",c.Control));
+const badge=make("span",c.Status,"pill"+(c.Status==="Partially Compliant"?" partial":c.Status==="Noncompliant"?" bad":""));item.append(badge);
+for(const key of provider==="All"?["AWS","Azure","GCP"]:[provider]){const row=make("div",undefined,"maprow");row.append(make("b",key),make("span",m[key]||"No mapping recorded"));item.append(row);}
+item.append(make("p","Assessed: "+c["Assessment Date"]+" · Illustrative sample; no live evidence", "hint"));
+list.append(item);
+}}
+for(const c of ["query","provider","status","severity"]){const el=pick(c);el.addEventListener(c==="query"?"input":"change",render);}render();
+})();
+</script></body></html>
