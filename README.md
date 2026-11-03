@@ -234,3 +234,7 @@ Focused on building enterprise cloud security solutions across AWS, Azure, and G
 ---
 
 ## ⭐ If you found this repository helpful, consider giving it a Star.
+
+## License and third-party materials
+
+See [LICENSE](LICENSE) for the repository license. Third-party code, datasets, images, and other assets retain their respective terms.
