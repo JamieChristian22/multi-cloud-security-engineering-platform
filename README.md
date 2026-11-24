@@ -1,5 +1,12 @@
 # 🔐 Multi-Cloud Security Engineering Platform
 
+Cloud security engineering portfolio covering IAM, least privilege, monitoring, threat detection, Zero Trust and governance across AWS, Azure and Google Cloud. Projects are simulations and design examples; verify control implementation in individual artifacts.
+
+**Explore related projects:** [aws security networking](https://github.com/JamieChristian22/aws-security-networking) · [cloud security operations platform](https://github.com/JamieChristian22/cloud-security-operations-platform)
+
+[Recruiter quick-start guide](https://github.com/JamieChristian22/JamieChristian22/blob/main/RECRUITER_START_HERE.md) · [Portfolio website](https://jamiechristian22.github.io/)
+
+
 <p align="center">
 
 ![AWS](https://img.shields.io/badge/AWS-Security-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
